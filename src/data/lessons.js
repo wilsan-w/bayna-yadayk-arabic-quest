@@ -316,6 +316,14 @@ const lesson5 = {
     { past: 'زَوَّجَ', present: 'يُزَوِّجُ', imperative: 'زَوِّجْ', masdar: 'تَزْوِيجٌ', activeParticiple: 'مُزَوِّجٌ', passiveParticiple: 'مُزَوَّجٌ', meaning: 'to marry off' },
   ],
   expressions: [],
+  sentences: [
+    { ar: 'أَنَا جَوْعَانُ وَأُرِيدُ الطَّعَامَ.', en: 'I am hungry and I want food.' },
+    { ar: 'هَلْ تُفَضِّلُ الشَّايَ أَمِ القَهْوَةَ؟', en: 'Do you prefer tea or coffee?' },
+    { ar: 'الضَّيْفُ يَشْرَبُ الحَلِيبَ عَلَى المَائِدَةِ.', en: 'The guest drinks milk at the table.' },
+    { ar: 'آكُلُ الأَرُزَّ وَالسَّمَكَ كَثِيرًا.', en: 'I eat rice and fish a lot.' },
+    { ar: 'المُضِيفَةُ تُضَيِّفُ الضُّيُوفَ.', en: 'The hostess hosts the guests.' },
+    { ar: 'شُكْرًا عَلَى هَذِهِ الوَجْبَةِ.', en: 'Thank you for this meal.' },
+  ],
 }
 
 const lesson6 = {

@@ -123,6 +123,7 @@ export default function StudySession({ lessonId, category, onExit }) {
   const [sentenceResult, setSentenceResult] = useState(null)
   const [matchResult, setMatchResult] = useState(null)
   const [finalXp, setFinalXp] = useState(0)
+  const [sentenceScope, setSentenceScope] = useState('current') // 'current' | 'all'
 
   const hasMatch = category !== 'verbs' && items.length >= 4 && settings.matchEnabled
 
@@ -136,26 +137,39 @@ export default function StudySession({ lessonId, category, onExit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, category, settings.quizLength, settings.quizDirection])
 
-  const sentencePool = useMemo(() => {
-    const authored = (lesson.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
-    return category === 'expressions' ? [...items, ...authored] : authored
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, category, lesson])
+  const priorLessons = useMemo(() => lessons.filter((l) => l.id <= lessonId), [lessonId])
+
+  function sentencePoolFor(sourceLessons) {
+    const authored = sourceLessons.flatMap((l) =>
+      (l.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
+    )
+    if (category !== 'expressions') return authored
+    const exprItems = sourceLessons.flatMap((l) =>
+      l.expressions.map((it, idx) => ({ ...it, _lessonId: l.id, _origIndex: idx }))
+    )
+    return [...exprItems, ...authored]
+  }
+
+  const sentencePoolCurrent = useMemo(() => sentencePoolFor([lesson]), [items, category, lesson])
+  const sentencePoolAll = useMemo(() => sentencePoolFor(priorLessons), [priorLessons, category, lesson])
+  const hasSentenceChoice = settings.sentenceEnabled && sentencePoolAll.length > sentencePoolCurrent.length
+  const hasSentence = settings.sentenceEnabled && sentencePoolCurrent.length > 0
+
+  const sentencePool = sentenceScope === 'all' ? sentencePoolAll : sentencePoolCurrent
 
   const sentenceQuestions = useMemo(() => {
     if (!settings.sentenceEnabled || sentencePool.length === 0) return []
     return buildSentenceQuestions(sentencePool, settings.quizDirection, 'all')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sentencePool, settings.sentenceEnabled, settings.quizDirection])
-  const hasSentence = sentenceQuestions.length > 0
 
   // Sentence questions built from authored full-sentence content don't map to a
   // single vocab/verb/expression item, so only record per-item mastery for the
-  // subset that came straight from this lesson's real expression entries.
+  // subset that came straight from a lesson's real expression entries.
   function handleSentenceAnswer(poolIndex, correct) {
     const entry = sentencePool[poolIndex]
     if (entry && !entry._authored) {
-      recordAnswer(lessonId, category, poolIndex, correct)
+      recordAnswer(entry._lessonId, category, entry._origIndex, correct)
     }
   }
 
@@ -178,9 +192,16 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   function handleQuizDone(result) {
     setQuizResult(result)
-    if (hasSentence) setPhase('sentence')
+    if (hasSentenceChoice) setPhase('sentenceChoice')
+    else if (hasSentence) setPhase('sentence')
     else if (hasMatch) setPhase('match')
     else finishAll(result, null, null)
+  }
+
+  function chooseSentenceScope(scope) {
+    playClick()
+    setSentenceScope(scope)
+    setPhase('sentence')
   }
 
   function handleSentenceDone(result) {
@@ -263,6 +284,33 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   if (phase === 'quiz') {
     return <QuizRound questions={quiz} onAnswer={handleQuizAnswer} onDone={handleQuizDone} />
+  }
+
+  if (phase === 'sentenceChoice') {
+    return (
+      <div className="session-shell">
+        <div className="quiz-prompt">
+          <div className="sub">Sentence practice</div>
+          <div className="word" style={{ fontSize: 22 }}>
+            Which sentences do you want to build?
+          </div>
+        </div>
+        <div className="scope-choice">
+          <motion.button className="scope-card" onClick={() => chooseSentenceScope('current')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">This lesson only</div>
+            <div className="scope-desc">
+              {sentencePoolCurrent.length} sentence{sentencePoolCurrent.length === 1 ? '' : 's'} from Lesson {lessonId}
+            </div>
+          </motion.button>
+          <motion.button className="scope-card" onClick={() => chooseSentenceScope('all')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">All lessons so far</div>
+            <div className="scope-desc">
+              {sentencePoolAll.length} sentences from Lessons 1–{lessonId}
+            </div>
+          </motion.button>
+        </div>
+      </div>
+    )
   }
 
   if (phase === 'sentence') {

@@ -613,6 +613,42 @@ button {
   cursor: default;
 }
 
+.scope-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 480px;
+}
+.scope-card {
+  padding: 20px 16px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border);
+  background: var(--panel-light);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.scope-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.scope-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+}
+.scope-desc {
+  color: var(--text-dim);
+  font-size: 12px;
+}
+@media (max-width: 520px) {
+  .scope-choice {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* sentence construction */
 .sentence-answer-row {
   width: 100%;
