@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useGameStore, levelFromXp } from '../store/useGameStore'
 
-export default function TopBar({ onHome, onSettings, onReview }) {
+export default function TopBar({ onHome, onSettings, onReview, onCalendar }) {
   const xp = useGameStore((s) => s.xp)
   const streak = useGameStore((s) => s.streak)
   const { level, into, need } = levelFromXp(xp)
@@ -26,7 +26,9 @@ export default function TopBar({ onHome, onSettings, onReview }) {
           />
         </div>
       </div>
-      <div className="streak-pill">🔥 {streak}</div>
+      <button className="streak-pill" onClick={onCalendar} title="Activity calendar" style={{ border: 'none', cursor: 'pointer' }}>
+        🔥 {streak}
+      </button>
       <button className="icon-btn" onClick={onReview} title="Review">
         📋
       </button>

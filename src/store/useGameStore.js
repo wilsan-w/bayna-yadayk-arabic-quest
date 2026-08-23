@@ -14,8 +14,17 @@ export function levelFromXp(xp) {
   return { level, into: remaining, need }
 }
 
+// Local calendar-day key (not UTC) so activity lands on the day the user
+// actually experienced it, regardless of timezone.
+export function dateKey(date = new Date()) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
 function todayKey() {
-  return new Date().toISOString().slice(0, 10)
+  return dateKey()
 }
 
 function dayDiff(a, b) {
@@ -32,6 +41,7 @@ export const useGameStore = create(
       xp: 0,
       streak: 0,
       lastActiveDate: null,
+      dailyXp: {}, // 'YYYY-MM-DD' -> XP earned that local calendar day
       mastery: {}, // itemKey -> { seen, correct, level(0-3) }
       lessonBest: {}, // `${lessonId}:${category}` -> best accuracy 0-1
       completedCategories: {}, // `${lessonId}:${category}` -> true
@@ -44,7 +54,8 @@ export const useGameStore = create(
             const diff = s.lastActiveDate ? dayDiff(s.lastActiveDate, today) : 1
             streak = diff === 1 ? s.streak + 1 : 1
           }
-          return { xp: s.xp + amount, streak, lastActiveDate: today }
+          const dailyXp = { ...s.dailyXp, [today]: (s.dailyXp[today] || 0) + amount }
+          return { xp: s.xp + amount, streak, lastActiveDate: today, dailyXp }
         })
       },
 
@@ -90,7 +101,15 @@ export const useGameStore = create(
       },
 
       reset() {
-        set({ xp: 0, streak: 0, lastActiveDate: null, mastery: {}, lessonBest: {}, completedCategories: {} })
+        set({
+          xp: 0,
+          streak: 0,
+          lastActiveDate: null,
+          dailyXp: {},
+          mastery: {},
+          lessonBest: {},
+          completedCategories: {},
+        })
       },
     }),
     { name: 'by-arabic-quest-progress' }

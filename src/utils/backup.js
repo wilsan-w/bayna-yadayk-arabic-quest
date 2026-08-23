@@ -13,6 +13,7 @@ export function exportCode() {
       xp: game.xp,
       streak: game.streak,
       lastActiveDate: game.lastActiveDate,
+      dailyXp: game.dailyXp,
       mastery: game.mastery,
       lessonBest: game.lessonBest,
       completedCategories: game.completedCategories,
@@ -45,6 +46,7 @@ export function importCode(code) {
     xp: typeof g.xp === 'number' ? g.xp : 0,
     streak: typeof g.streak === 'number' ? g.streak : 0,
     lastActiveDate: g.lastActiveDate ?? null,
+    dailyXp: g.dailyXp && typeof g.dailyXp === 'object' ? g.dailyXp : {},
     mastery: g.mastery && typeof g.mastery === 'object' ? g.mastery : {},
     lessonBest: g.lessonBest && typeof g.lessonBest === 'object' ? g.lessonBest : {},
     completedCategories:

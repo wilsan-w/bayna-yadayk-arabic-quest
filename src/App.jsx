@@ -8,6 +8,7 @@ import StudySession from './components/StudySession'
 import SettingsPage from './components/SettingsPage'
 import ReviewPage from './components/ReviewPage'
 import ReviewTestSession from './components/ReviewTestSession'
+import CalendarPage from './components/CalendarPage'
 import { useGameStore, levelFromXp } from './store/useGameStore'
 import { playLevelUp } from './utils/sfx'
 
@@ -45,6 +46,7 @@ function App() {
           setScreen('settings')
         }}
         onReview={() => setScreen('review')}
+        onCalendar={() => setScreen('calendar')}
       />
       {screen === 'map' && (
         <motion.div key="map" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
@@ -93,6 +95,11 @@ function App() {
       {screen === 'reviewTest' && (
         <motion.div key="reviewTest" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
           <ReviewTestSession category={category} entries={reviewEntries} onExit={() => setScreen('review')} />
+        </motion.div>
+      )}
+      {screen === 'calendar' && (
+        <motion.div key="calendar" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+          <CalendarPage onBack={goMap} />
         </motion.div>
       )}
     </div>
