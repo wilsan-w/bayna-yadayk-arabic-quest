@@ -51,7 +51,9 @@ export default function SettingsPage({ onBack }) {
       <div className="settings-list">
         <div className="settings-card">
           <h3 className="heading">Quiz direction</h3>
-          <p className="settings-desc">Which side is shown as the question</p>
+          <p className="settings-desc">
+            Which side is shown as the question — applies to multiple-choice and sentence-building
+          </p>
           <Segmented
             value={settings.quizDirection}
             onChange={(v) => settings.setSetting('quizDirection', v)}
@@ -97,6 +99,18 @@ export default function SettingsPage({ onBack }) {
               ]}
             />
           )}
+        </div>
+
+        <div className="settings-card">
+          <div className="settings-row">
+            <div>
+              <h3 className="heading">Sentence construction</h3>
+              <p className="settings-desc">
+                Build the translation by tapping word tiles, Duolingo-style — for lessons with expressions/phrases
+              </p>
+            </div>
+            <Toggle checked={settings.sentenceEnabled} onChange={(v) => settings.setSetting('sentenceEnabled', v)} />
+          </div>
         </div>
 
         <div className="settings-card">

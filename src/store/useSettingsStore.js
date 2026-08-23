@@ -8,6 +8,7 @@ export const useSettingsStore = create(
       quizLength: 10, // number of questions, or 'all'
       matchEnabled: true,
       matchPairs: 6,
+      sentenceEnabled: true,
       soundEnabled: true,
       setSetting: (key, value) => set({ [key]: value }),
     }),

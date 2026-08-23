@@ -613,6 +613,67 @@ button {
   cursor: default;
 }
 
+/* sentence construction */
+.sentence-answer-row {
+  width: 100%;
+  max-width: 520px;
+  min-height: 64px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 4px;
+}
+.sentence-placeholder {
+  color: var(--text-faint);
+  font-size: 14px;
+}
+.sentence-bank {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.sentence-token {
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--panel-light);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+}
+.sentence-token.bank:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.sentence-token.answer {
+  border-color: var(--blue);
+  background: rgba(95, 179, 255, 0.14);
+}
+.sentence-token.answer.correct {
+  border-color: var(--primary);
+  background: rgba(61, 220, 151, 0.18);
+  color: var(--primary);
+}
+.sentence-token.answer.wrong {
+  border-color: var(--coral);
+  background: rgba(255, 107, 107, 0.18);
+  color: var(--coral);
+}
+.sentence-correct-hint {
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: center;
+}
+.sentence-correct-hint span {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 /* match game */
 .match-grid {
   display: grid;

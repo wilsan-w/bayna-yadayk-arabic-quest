@@ -5,9 +5,11 @@ import { useGameStore } from '../store/useGameStore'
 import { useSettingsStore } from '../store/useSettingsStore'
 import FlipCard from './FlipCard'
 import QuizRound from './QuizRound'
+import SentenceBuild from './SentenceBuild'
 import MatchGame from './MatchGame'
 import SessionSummary from './SessionSummary'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
+import { buildSentenceQuestions } from '../utils/sentence'
 import { speakArabic } from '../utils/speech'
 import { playClick } from '../utils/sfx'
 
@@ -118,6 +120,7 @@ export default function StudySession({ lessonId, category, onExit }) {
   const [order, setOrder] = useState(() => items.map((_, i) => i))
   const [learnIndex, setLearnIndex] = useState(0)
   const [quizResult, setQuizResult] = useState(null)
+  const [sentenceResult, setSentenceResult] = useState(null)
   const [matchResult, setMatchResult] = useState(null)
   const [finalXp, setFinalXp] = useState(0)
 
@@ -132,6 +135,13 @@ export default function StudySession({ lessonId, category, onExit }) {
     return buildQuiz(items, getWord, (it) => it.meaning, count, settings.quizDirection)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, category, settings.quizLength, settings.quizDirection])
+
+  const sentenceQuestions = useMemo(() => {
+    if (category !== 'expressions' || !settings.sentenceEnabled) return []
+    return buildSentenceQuestions(items, settings.quizDirection, 'all')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, category, settings.sentenceEnabled, settings.quizDirection])
+  const hasSentence = sentenceQuestions.length > 0
 
   const matchPairs = useMemo(() => {
     if (!hasMatch) return []
@@ -152,20 +162,31 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   function handleQuizDone(result) {
     setQuizResult(result)
+    if (hasSentence) setPhase('sentence')
+    else if (hasMatch) setPhase('match')
+    else finishAll(result, null, null)
+  }
+
+  function handleSentenceDone(result) {
+    setSentenceResult(result)
     if (hasMatch) setPhase('match')
-    else finishAll(result, null)
+    else finishAll(quizResult, result, null)
   }
 
   function handleMatchDone(result) {
     setMatchResult(result)
-    finishAll(quizResult, result)
+    finishAll(quizResult, sentenceResult, result)
   }
 
-  function finishAll(qResult, mResult) {
-    const totalCorrect = (qResult?.correctFirstTry || 0) + (mResult?.correctFirstTry || 0)
-    const totalQ = (qResult?.total || 0) + (mResult?.total || 0)
+  function finishAll(qResult, sResult, mResult) {
+    const totalCorrect = (qResult?.correctFirstTry || 0) + (sResult?.correctFirstTry || 0) + (mResult?.correctFirstTry || 0)
+    const totalQ = (qResult?.total || 0) + (sResult?.total || 0) + (mResult?.total || 0)
     const accuracy = totalQ ? totalCorrect / totalQ : 1
-    const xp = items.length + (qResult?.correctFirstTry || 0) * 8 + (mResult?.correctFirstTry || 0) * 6
+    const xp =
+      items.length +
+      (qResult?.correctFirstTry || 0) * 8 +
+      (sResult?.correctFirstTry || 0) * 10 +
+      (mResult?.correctFirstTry || 0) * 6
     setFinalXp(xp)
     finishSession(lessonId, category, accuracy, xp)
     setPhase('summary')
@@ -228,12 +249,17 @@ export default function StudySession({ lessonId, category, onExit }) {
     return <QuizRound questions={quiz} onAnswer={handleQuizAnswer} onDone={handleQuizDone} />
   }
 
+  if (phase === 'sentence') {
+    return <SentenceBuild questions={sentenceQuestions} onAnswer={handleQuizAnswer} onDone={handleSentenceDone} />
+  }
+
   if (phase === 'match') {
     return <MatchGame pairs={matchPairs} onDone={handleMatchDone} />
   }
 
-  const totalCorrect = (quizResult?.correctFirstTry || 0) + (matchResult?.correctFirstTry || 0)
-  const totalQ = (quizResult?.total || 0) + (matchResult?.total || 0)
+  const totalCorrect =
+    (quizResult?.correctFirstTry || 0) + (sentenceResult?.correctFirstTry || 0) + (matchResult?.correctFirstTry || 0)
+  const totalQ = (quizResult?.total || 0) + (sentenceResult?.total || 0) + (matchResult?.total || 0)
   const accuracy = totalQ ? totalCorrect / totalQ : 1
 
   return <SessionSummary accuracy={accuracy} xpEarned={finalXp} onContinue={onExit} />

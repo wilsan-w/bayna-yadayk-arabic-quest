@@ -22,6 +22,7 @@ export function exportCode() {
       quizLength: settings.quizLength,
       matchEnabled: settings.matchEnabled,
       matchPairs: settings.matchPairs,
+      sentenceEnabled: settings.sentenceEnabled,
       soundEnabled: settings.soundEnabled,
     },
   }
