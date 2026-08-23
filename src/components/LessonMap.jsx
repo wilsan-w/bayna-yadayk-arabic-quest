@@ -4,7 +4,7 @@ import { useGameStore } from '../store/useGameStore'
 import ProgressRing from './ProgressRing'
 import { playClick } from '../utils/sfx'
 
-const CATS = ['vocabulary', 'verbs', 'expressions']
+const CATS = ['vocabulary', 'verbs', 'conjugation', 'expressions']
 const ALIGN = ['self-a', 'self-b', 'self-c', 'self-b']
 
 export default function LessonMap({ onOpenLesson }) {

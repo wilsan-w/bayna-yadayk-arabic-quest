@@ -6,6 +6,7 @@ import { playClick } from '../utils/sfx'
 const CATEGORY_META = {
   vocabulary: { emoji: '📚', label: 'Vocabulary', desc: 'Words, plurals, synonyms & antonyms' },
   verbs: { emoji: '🌀', label: 'Verbs', desc: 'Past, present, imperative & more' },
+  conjugation: { emoji: '🔁', label: 'Verb Conjugation', desc: 'أنا/أنتَ/أنتِ/هو/هي/نحن — present & past' },
   expressions: { emoji: '💬', label: 'Expressions', desc: 'Everyday phrases' },
 }
 

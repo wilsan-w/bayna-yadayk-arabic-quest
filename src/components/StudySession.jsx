@@ -10,6 +10,7 @@ import MatchGame from './MatchGame'
 import SessionSummary from './SessionSummary'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
 import { buildSentenceQuestions } from '../utils/sentence'
+import { PRONOUNS, fullParadigm, buildConjugationQuiz } from '../utils/conjugation'
 import { speakArabic } from '../utils/speech'
 import { playClick } from '../utils/sfx'
 
@@ -107,7 +108,44 @@ function ExpressionFace({ item, side }) {
   return <div className="flip-meaning">{item.meaning}</div>
 }
 
-const FACE_COMPONENTS = { vocabulary: VocabFace, verbs: VerbFace, expressions: ExpressionFace }
+function ConjugationFace({ item, side }) {
+  if (side === 'front') {
+    return (
+      <>
+        <button
+          className="speak-btn"
+          onClick={(e) => {
+            e.stopPropagation()
+            speakArabic(item.past)
+          }}
+        >
+          🔊
+        </button>
+        <div className="flip-meaning">{item.meaning}</div>
+        <div style={{ color: 'var(--text-faint)', fontSize: 12 }}>هُوَ (he, past): {item.past}</div>
+      </>
+    )
+  }
+  const { past, present } = fullParadigm(item)
+  return (
+    <div className="paradigm-table">
+      <div className="paradigm-row paradigm-head">
+        <span></span>
+        <span>Present</span>
+        <span>Past</span>
+      </div>
+      {PRONOUNS.map((p) => (
+        <div className="paradigm-row" key={p.key}>
+          <span className="paradigm-pronoun arabic">{p.label}</span>
+          <span className="paradigm-form arabic">{present[p.key]}</span>
+          <span className="paradigm-form arabic">{past[p.key]}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const FACE_COMPONENTS = { vocabulary: VocabFace, verbs: VerbFace, conjugation: ConjugationFace, expressions: ExpressionFace }
 
 export default function StudySession({ lessonId, category, onExit }) {
   const lesson = lessons.find((l) => l.id === lessonId)
@@ -125,10 +163,13 @@ export default function StudySession({ lessonId, category, onExit }) {
   const [finalXp, setFinalXp] = useState(0)
   const [sentenceScope, setSentenceScope] = useState('current') // 'current' | 'all'
 
-  const hasMatch = category !== 'verbs' && items.length >= 4 && settings.matchEnabled
+  const hasMatch = category !== 'verbs' && category !== 'conjugation' && items.length >= 4 && settings.matchEnabled
 
   const quiz = useMemo(() => {
     const count = settings.quizLength === 'all' ? items.length : settings.quizLength
+    if (category === 'conjugation') {
+      return buildConjugationQuiz(items, count)
+    }
     if (category === 'verbs') {
       return buildQuiz(items, (it) => it.past, (it) => it.meaning, count, settings.quizDirection)
     }
@@ -140,6 +181,7 @@ export default function StudySession({ lessonId, category, onExit }) {
   const priorLessons = useMemo(() => lessons.filter((l) => l.id <= lessonId), [lessonId])
 
   function sentencePoolFor(sourceLessons) {
+    if (category === 'conjugation') return []
     const authored = sourceLessons.flatMap((l) =>
       (l.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
     )

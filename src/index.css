@@ -477,6 +477,7 @@ button {
   gap: 14px;
   padding: 24px;
   text-align: center;
+  overflow-y: auto;
 }
 .flip-face.back {
   transform: rotateY(180deg);
@@ -560,6 +561,42 @@ button {
 }
 .verb-cell .val {
   font-size: 19px;
+}
+
+/* conjugation paradigm table */
+.paradigm-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.paradigm-row {
+  display: grid;
+  grid-template-columns: 0.9fr 1.2fr 1.2fr;
+  gap: 6px;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.paradigm-row.paradigm-head {
+  background: transparent;
+  color: var(--text-faint);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+  padding-bottom: 0;
+}
+.paradigm-pronoun {
+  font-weight: 700;
+  color: var(--purple);
+  font-size: 15px;
+}
+.paradigm-form {
+  font-size: 15px;
+  text-align: center;
 }
 
 /* quiz */

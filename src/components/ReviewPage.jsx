@@ -4,9 +4,10 @@ import { useGameStore } from '../store/useGameStore'
 import { playClick } from '../utils/sfx'
 
 const TABS = [
-  { key: 'vocabulary', label: '📚 Vocabulary' },
-  { key: 'verbs', label: '🌀 Verbs' },
-  { key: 'expressions', label: '💬 Expressions' },
+  { key: 'vocabulary', label: '📚 Vocabulary', noun: 'vocabulary' },
+  { key: 'verbs', label: '🌀 Verbs', noun: 'verbs' },
+  { key: 'conjugation', label: '🔁 Conjugation', noun: 'conjugations' },
+  { key: 'expressions', label: '💬 Expressions', noun: 'expressions' },
 ]
 
 function textOf(item) {
@@ -68,8 +69,8 @@ export default function ReviewPage({ onBack, onTest }) {
 
       {entries.length === 0 ? (
         <div className="review-empty">
-          You haven't studied any {TABS.find((t) => t.key === tab).label.split(' ')[1]} yet — take a quiz in a lesson
-          first, then it'll show up here.
+          You haven't studied any {TABS.find((t) => t.key === tab).noun} yet — take a quiz in a lesson first, then
+          it'll show up here.
         </div>
       ) : (
         <>
