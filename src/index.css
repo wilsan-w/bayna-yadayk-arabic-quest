@@ -616,6 +616,23 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+.quiz-prompt-detail {
+  margin-top: 10px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+.quiz-prompt-detail .arabic {
+  font-size: 22px;
+  color: var(--purple);
+  font-weight: 700;
+}
+.quiz-prompt-detail .detail-sep {
+  color: var(--text-faint);
+}
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

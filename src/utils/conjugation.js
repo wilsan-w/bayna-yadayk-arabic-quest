@@ -39,8 +39,7 @@ export function buildConjugationQuiz(verbs, count) {
   const chosen = shuffleArray(pool).slice(0, n)
 
   return chosen.map((q) => {
-    const tenseLabel = q.tense === 'past' ? 'past tense' : 'present tense'
-    const prompt = `${q.verb.meaning} — ${q.pronoun.labelEn}, ${tenseLabel}`
+    const tenseLabel = q.tense === 'past' ? 'Past Tense' : 'Present Tense'
 
     // Some pronoun pairs (e.g. أنتَ/هي) legitimately share the same surface
     // form for many verbs — dedupe by text so no two options ever look
@@ -67,6 +66,15 @@ export function buildConjugationQuiz(verbs, count) {
     }
 
     const options = shuffleArray([q.form, ...distractors])
-    return { item: q.verb, index: q.index, prompt, promptIsArabic: false, answer: q.form, options }
+    return {
+      item: q.verb,
+      index: q.index,
+      subLabel: 'Conjugate',
+      prompt: tenseLabel,
+      promptIsArabic: false,
+      promptDetail: { pronoun: q.pronoun.label, infinitive: q.verb.meaning },
+      answer: q.form,
+      options,
+    }
   })
 }

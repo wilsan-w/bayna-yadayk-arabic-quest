@@ -49,8 +49,15 @@ export default function QuizRound({ questions, onAnswer, onDone }) {
         style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}
       >
         <div className="quiz-prompt">
-          <div className="sub">{q.promptIsArabic ? 'What does this mean?' : 'Which word means this?'}</div>
+          <div className="sub">{q.subLabel ?? (q.promptIsArabic ? 'What does this mean?' : 'Which word means this?')}</div>
           <div className={q.promptIsArabic ? 'word arabic' : 'word'}>{q.prompt}</div>
+          {q.promptDetail && (
+            <div className="quiz-prompt-detail">
+              <span className="arabic">{q.promptDetail.pronoun}</span>
+              <span className="detail-sep">—</span>
+              <span>{q.promptDetail.infinitive}</span>
+            </div>
+          )}
         </div>
         <div className="options-grid">
           {q.options.map((opt, i) => {
