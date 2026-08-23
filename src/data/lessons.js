@@ -81,6 +81,14 @@ const lesson1 = {
     { phrase: 'أَهْلًا وَسَهْلًا', meaning: 'Welcome' },
     { phrase: 'مَعَ السَّلَامَةِ', meaning: 'Goodbye' },
   ],
+  sentences: [
+    { ar: 'أَنَا طَالِبٌ مِنْ بَاكِسْتَانَ.', en: 'I am a student from Pakistan.' },
+    { ar: 'أَخِي مُهَنْدِسٌ وَأُخْتِي طَبِيبَةٌ.', en: 'My brother is an engineer and my sister is a doctor.' },
+    { ar: 'كَيْفَ حَالُكَ؟ الحَمْدُ لِلَّهِ بِخَيْرٍ.', en: 'How are you? Praise be to Allah, well.' },
+    { ar: 'هَذَا صَدِيقِي وَهَذِهِ صَدِيقَتِي.', en: 'This is my friend and this is my friend (female).' },
+    { ar: 'الطَّالِبُ يَدْرُسُ الدَّرْسَ مَعَ المُدَرِّسِ.', en: 'The student studies the lesson with the teacher.' },
+    { ar: 'مِنْ أَيْنَ أَنْتَ؟ أَنَا مِنْ سُورِيَا.', en: 'Where are you from? I am from Syria.' },
+  ],
 }
 
 const lesson2 = {
@@ -130,6 +138,14 @@ const lesson2 = {
     { phrase: 'صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ', meaning: 'Allah’s peace and blessings be upon him' },
     { phrase: 'اللَّهُ أَكْبَرُ', meaning: 'Allah is the Greatest' },
     { phrase: 'هَيَّا بِنَا إِلَى المَسْجِدِ', meaning: 'Let’s go to the masjid' },
+  ],
+  sentences: [
+    { ar: 'هَذَا وَالِدِي وَهَذِهِ وَالِدَتِي.', en: 'This is my father and this is my mother.' },
+    { ar: 'جَدِّي وَجَدَّتِي فِي الغُرْفَةِ.', en: 'My grandfather and my grandmother are in the room.' },
+    { ar: 'هَلْ تُؤْمِنُ بِاللَّهِ؟ نَعَمْ، أُومِنُ بِاللَّهِ.', en: 'Do you believe in Allah? Yes, I believe in Allah.' },
+    { ar: 'الابْنُ يَقْرَأُ القُرْآنَ فِي المَسْجِدِ.', en: 'The son reads the Qur’an in the masjid.' },
+    { ar: 'المُؤَذِّنُ يُؤَذِّنُ عِنْدَ الفَجْرِ.', en: 'The muezzin calls the adhan at dawn.' },
+    { ar: 'عَمِّي أَكْبَرُ مِنْ عَمَّتِي.', en: 'My uncle is older than my aunt.' },
   ],
 }
 
@@ -190,6 +206,14 @@ const lesson3 = {
     { phrase: 'تَفَضَّلْ', meaning: 'here you are' },
     { phrase: 'شُكْرًا', meaning: 'thank you' },
   ],
+  sentences: [
+    { ar: 'هَذَا البَيْتُ جَمِيلٌ.', en: 'This house is beautiful.' },
+    { ar: 'كَمْ غُرْفَةً فِي هَذِهِ الشَّقَّةِ؟', en: 'How many rooms are in this apartment?' },
+    { ar: 'هُوَ يَسْكُنُ فِي شَقَّةٍ فِي هَذَا الحَيِّ.', en: 'He lives in an apartment in this district.' },
+    { ar: 'البَائِعُ يَبِيعُ وَالمُشْتَرِي يَشْتَرِي.', en: 'The seller sells and the buyer buys.' },
+    { ar: 'هَلْ لَدَيْكَ سَرِيرٌ فِي غُرْفَةِ النَّوْمِ؟', en: 'Do you have a bed in the bedroom?' },
+    { ar: 'هِيَ تَطْبُخُ فِي المَطْبَخِ.', en: 'She cooks in the kitchen.' },
+  ],
 }
 
 const lesson4 = {
@@ -230,6 +254,14 @@ const lesson4 = {
     { past: 'عَمِلَ', present: 'يَعْمَلُ', imperative: 'اِعْمَلْ', masdar: 'عَمَلٌ', activeParticiple: 'عَامِلٌ', passiveParticiple: 'مَعْمُولٌ', meaning: 'to work / do something' },
   ],
   expressions: [],
+  sentences: [
+    { ar: 'أَنَا أَسْتَيْقِظُ مُبَكِّرًا فِي الصَّبَاحِ.', en: 'I wake up early in the morning.' },
+    { ar: 'هُوَ يَذْهَبُ إِلَى المَدْرَسَةِ فِي الحَافِلَةِ.', en: 'He goes to school on the bus.' },
+    { ar: 'أَذْهَبُ إِلَى العَمَلِ بَعْدَ الفَجْرِ.', en: 'I go to work after dawn.' },
+    { ar: 'هِيَ تَقْرَأُ الصَّحِيفَةَ كُلَّ يَوْمٍ.', en: 'She reads the newspaper every day.' },
+    { ar: 'يَوْمُ الجُمْعَةِ يَوْمُ عُطْلَةٍ.', en: 'Friday is a holiday.' },
+    { ar: 'هُوَ يَغْسِلُ الطَّبَقَ فِي الصَّبَاحِ.', en: 'He washes the dish in the morning.' },
+  ],
 }
 
 const lesson5 = {

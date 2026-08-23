@@ -136,12 +136,28 @@ export default function StudySession({ lessonId, category, onExit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, category, settings.quizLength, settings.quizDirection])
 
-  const sentenceQuestions = useMemo(() => {
-    if (category !== 'expressions' || !settings.sentenceEnabled) return []
-    return buildSentenceQuestions(items, settings.quizDirection, 'all')
+  const sentencePool = useMemo(() => {
+    const authored = (lesson.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
+    return category === 'expressions' ? [...items, ...authored] : authored
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, category, settings.sentenceEnabled, settings.quizDirection])
+  }, [items, category, lesson])
+
+  const sentenceQuestions = useMemo(() => {
+    if (!settings.sentenceEnabled || sentencePool.length === 0) return []
+    return buildSentenceQuestions(sentencePool, settings.quizDirection, 'all')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection])
   const hasSentence = sentenceQuestions.length > 0
+
+  // Sentence questions built from authored full-sentence content don't map to a
+  // single vocab/verb/expression item, so only record per-item mastery for the
+  // subset that came straight from this lesson's real expression entries.
+  function handleSentenceAnswer(poolIndex, correct) {
+    const entry = sentencePool[poolIndex]
+    if (entry && !entry._authored) {
+      recordAnswer(lessonId, category, poolIndex, correct)
+    }
+  }
 
   const matchPairs = useMemo(() => {
     if (!hasMatch) return []
@@ -250,7 +266,7 @@ export default function StudySession({ lessonId, category, onExit }) {
   }
 
   if (phase === 'sentence') {
-    return <SentenceBuild questions={sentenceQuestions} onAnswer={handleQuizAnswer} onDone={handleSentenceDone} />
+    return <SentenceBuild questions={sentenceQuestions} onAnswer={handleSentenceAnswer} onDone={handleSentenceDone} />
   }
 
   if (phase === 'match') {

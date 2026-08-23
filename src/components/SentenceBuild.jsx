@@ -72,7 +72,7 @@ export default function SentenceBuild({ questions, onAnswer, onDone }) {
         </div>
       </div>
 
-      <div className="sentence-answer-row">
+      <div className="sentence-answer-row" dir={q.answerIsArabic ? 'rtl' : 'ltr'}>
         {answer.length === 0 && <span className="sentence-placeholder">Tap words below…</span>}
         {answer.map((t) => (
           <motion.button
@@ -94,7 +94,7 @@ export default function SentenceBuild({ questions, onAnswer, onDone }) {
         </div>
       )}
 
-      <div className="sentence-bank">
+      <div className="sentence-bank" dir={q.answerIsArabic ? 'rtl' : 'ltr'}>
         {bank.map((t) => (
           <motion.button
             key={t.id}

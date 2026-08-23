@@ -5,6 +5,7 @@ import QuizRound from './QuizRound'
 import SentenceBuild from './SentenceBuild'
 import MatchGame from './MatchGame'
 import SessionSummary from './SessionSummary'
+import { lessons } from '../data/lessons'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
 import { buildSentenceQuestions } from '../utils/sentence'
 
@@ -33,12 +34,30 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, category, settings.quizLength, settings.quizDirection])
 
-  const sentenceQuestions = useMemo(() => {
-    if (category !== 'expressions' || !settings.sentenceEnabled) return []
-    return buildSentenceQuestions(items, settings.quizDirection, 'all')
+  const sentencePool = useMemo(() => {
+    const lessonIds = [...new Set(entries.map((e) => e.lessonId))]
+    const authored = lessonIds.flatMap((id) => {
+      const lesson = lessons.find((l) => l.id === id)
+      return (lesson?.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
+    })
+    return category === 'expressions' ? [...items, ...authored] : authored
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, category, settings.sentenceEnabled, settings.quizDirection])
+  }, [entries, items, category])
+
+  const sentenceQuestions = useMemo(() => {
+    if (!settings.sentenceEnabled || sentencePool.length === 0) return []
+    return buildSentenceQuestions(sentencePool, settings.quizDirection, 'all')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection])
   const hasSentence = sentenceQuestions.length > 0
+
+  function handleSentenceAnswer(poolIndex, correct) {
+    const entry = sentencePool[poolIndex]
+    if (entry && !entry._authored) {
+      const orig = entries[poolIndex]
+      if (orig) recordAnswer(orig.lessonId, category, orig.index, correct)
+    }
+  }
 
   const matchPairs = useMemo(() => {
     if (!hasMatch) return []
@@ -85,7 +104,7 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     return <QuizRound questions={quiz} onAnswer={handleQuizAnswer} onDone={handleQuizDone} />
   }
   if (phase === 'sentence') {
-    return <SentenceBuild questions={sentenceQuestions} onAnswer={handleQuizAnswer} onDone={handleSentenceDone} />
+    return <SentenceBuild questions={sentenceQuestions} onAnswer={handleSentenceAnswer} onDone={handleSentenceDone} />
   }
   if (phase === 'match') {
     return <MatchGame pairs={matchPairs} onDone={handleMatchDone} />
