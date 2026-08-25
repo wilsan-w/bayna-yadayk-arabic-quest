@@ -115,6 +115,12 @@ button {
   top: 12px;
   z-index: 20;
   margin-bottom: 22px;
+  /* Forces its own GPU compositing layer so backdrop-filter keeps
+     re-rendering during scroll — some Chromium builds (esp. on Windows)
+     otherwise freeze the blur on sticky elements mid-scroll. */
+  transform: translateZ(0);
+  will-change: transform;
+  isolation: isolate;
 }
 
 .level-badge {
