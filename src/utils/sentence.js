@@ -12,6 +12,24 @@ function tokenize(text) {
     .trim()
     .split(/\s+/)
     .filter(Boolean)
+    // Drop stray punctuation-only tokens (e.g. a lone "/" from meanings
+    // written as "please / if you may") — not real words to build with.
+    .filter((t) => /\p{L}/u.test(t))
+}
+
+// Only items where at least one side has more than one word can become a
+// sentence-building question — single words don't make a sentence.
+function isEligible(item) {
+  const source = (item.phrase || item.word || '').trim()
+  const target = (item.meaning || '').trim()
+  return !!source && !!target && (tokenize(source).length > 1 || tokenize(target).length > 1)
+}
+
+// How many of `items` will actually produce a question — use this for any
+// UI that shows a count before building the questions themselves, so the
+// number shown always matches what the round actually contains.
+export function eligibleSentenceCount(items) {
+  return items.filter(isEligible).length
 }
 
 // Builds word-bank sentence-construction questions from items shaped like
@@ -25,7 +43,7 @@ export function buildSentenceQuestions(items, direction, count) {
       source: (item.phrase || item.word || '').trim(),
       target: (item.meaning || '').trim(),
     }))
-    .filter((p) => p.source && p.target && (tokenize(p.source).length > 1 || tokenize(p.target).length > 1))
+    .filter((p) => isEligible(p.item))
 
   if (pool.length === 0) return []
 

@@ -9,7 +9,7 @@ import SentenceBuild from './SentenceBuild'
 import MatchGame from './MatchGame'
 import SessionSummary from './SessionSummary'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
-import { buildSentenceQuestions } from '../utils/sentence'
+import { buildSentenceQuestions, eligibleSentenceCount } from '../utils/sentence'
 import { PRONOUNS, fullParadigm, buildConjugationQuiz } from '../utils/conjugation'
 import { speakArabic } from '../utils/speech'
 import { playClick } from '../utils/sfx'
@@ -194,8 +194,10 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   const sentencePoolCurrent = useMemo(() => sentencePoolFor([lesson]), [items, category, lesson])
   const sentencePoolAll = useMemo(() => sentencePoolFor(priorLessons), [priorLessons, category, lesson])
-  const hasSentenceChoice = settings.sentenceEnabled && sentencePoolAll.length > sentencePoolCurrent.length
-  const hasSentence = settings.sentenceEnabled && sentencePoolCurrent.length > 0
+  const sentenceCountCurrent = useMemo(() => eligibleSentenceCount(sentencePoolCurrent), [sentencePoolCurrent])
+  const sentenceCountAll = useMemo(() => eligibleSentenceCount(sentencePoolAll), [sentencePoolAll])
+  const hasSentenceChoice = settings.sentenceEnabled && sentenceCountAll > sentenceCountCurrent
+  const hasSentence = settings.sentenceEnabled && sentenceCountCurrent > 0
 
   const sentencePool = sentenceScope === 'all' ? sentencePoolAll : sentencePoolCurrent
 
@@ -341,13 +343,13 @@ export default function StudySession({ lessonId, category, onExit }) {
           <motion.button className="scope-card" onClick={() => chooseSentenceScope('current')} whileTap={{ scale: 0.97 }}>
             <div className="scope-title">This lesson only</div>
             <div className="scope-desc">
-              {sentencePoolCurrent.length} sentence{sentencePoolCurrent.length === 1 ? '' : 's'} from Lesson {lessonId}
+              {sentenceCountCurrent} sentence{sentenceCountCurrent === 1 ? '' : 's'} from Lesson {lessonId}
             </div>
           </motion.button>
           <motion.button className="scope-card" onClick={() => chooseSentenceScope('all')} whileTap={{ scale: 0.97 }}>
             <div className="scope-title">All lessons so far</div>
             <div className="scope-desc">
-              {sentencePoolAll.length} sentences from Lessons 1–{lessonId}
+              {sentenceCountAll} sentences from Lessons 1–{lessonId}
             </div>
           </motion.button>
         </div>
