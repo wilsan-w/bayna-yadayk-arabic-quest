@@ -16,6 +16,7 @@ function textOf(item) {
 export default function ReviewTestSession({ category, entries, onExit }) {
   const recordAnswer = useGameStore((s) => s.recordAnswer)
   const addXp = useGameStore((s) => s.addXp)
+  const logSession = useGameStore((s) => s.logSession)
   const settings = useSettingsStore()
 
   const [phase, setPhase] = useState('quiz')
@@ -96,6 +97,8 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     const xp =
       (qResult?.correctFirstTry || 0) * 8 + (sResult?.correctFirstTry || 0) * 10 + (mResult?.correctFirstTry || 0) * 6
     setFinalXp(xp)
+    const lessonIds = [...new Set(entries.map((e) => e.lessonId))].sort((a, b) => a - b)
+    logSession({ scope: 'review', lessonIds, category, accuracy, xp })
     addXp(xp)
     setPhase('summary')
   }

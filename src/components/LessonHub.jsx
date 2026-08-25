@@ -51,7 +51,10 @@ export default function LessonHub({ lessonId, onBack, onStart }) {
               {done && <div className="done-badge">✅</div>}
               <div className="emoji">{meta.emoji}</div>
               <h3 className="heading">{meta.label}</h3>
-              <div className="count">{items.length} items{disabled ? ' · coming soon' : ''}</div>
+              <div className="count">
+                {items.length} items{disabled ? ' · coming soon' : ''}
+                {best > 0 && <span className="best-score"> · Best {Math.round(best * 100)}%</span>}
+              </div>
               {!disabled && (
                 <div className="bar-bg">
                   <div className="bar-fill" style={{ width: `${best * 100}%` }} />

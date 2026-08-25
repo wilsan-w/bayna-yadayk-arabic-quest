@@ -294,6 +294,12 @@ button {
   font-size: 18px;
   margin-top: 2px;
 }
+.node-best {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 3px;
+}
 
 .node-progress-ring {
   flex-shrink: 0;
@@ -439,6 +445,10 @@ button {
 .category-card .count {
   color: var(--text-dim);
   font-size: 13px;
+}
+.category-card .best-score {
+  color: var(--gold);
+  font-weight: 700;
 }
 .category-card .bar-bg {
   height: 8px;
@@ -1191,6 +1201,69 @@ button {
 }
 .review-item .mastery-dots span.filled {
   background: var(--primary);
+}
+
+/* ---------- Session history ---------- */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+}
+.history-lesson {
+  font-weight: 700;
+  font-size: 14px;
+}
+.history-category {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.history-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.history-score {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.history-score.great {
+  color: var(--primary);
+  background: rgba(61, 220, 151, 0.14);
+}
+.history-score.good {
+  color: var(--gold);
+  background: rgba(255, 201, 77, 0.14);
+}
+.history-score.low {
+  color: var(--coral);
+  background: rgba(255, 107, 107, 0.14);
+}
+.history-xp {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 13px;
+}
+.history-when {
+  color: var(--text-faint);
+  font-size: 12px;
+  min-width: 100px;
+  text-align: right;
 }
 
 .progress-ring-svg circle {

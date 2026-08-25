@@ -45,6 +45,14 @@ export const useGameStore = create(
       mastery: {}, // itemKey -> { seen, correct, level(0-3) }
       lessonBest: {}, // `${lessonId}:${category}` -> best accuracy 0-1
       completedCategories: {}, // `${lessonId}:${category}` -> true
+      sessionHistory: [], // [{ id, ts, lessonId, category, accuracy, xp, scope, lessonIds? }] newest first
+
+      logSession(entry) {
+        set((s) => {
+          const item = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, ts: Date.now(), ...entry }
+          return { sessionHistory: [item, ...s.sessionHistory].slice(0, 200) }
+        })
+      },
 
       addXp(amount) {
         set((s) => {
@@ -83,6 +91,7 @@ export const useGameStore = create(
             completedCategories: { ...s.completedCategories, [key]: true },
           }
         })
+        get().logSession({ scope: 'lesson', lessonId, category, accuracy, xp: xpEarned })
         get().addXp(xpEarned)
       },
 
@@ -109,6 +118,7 @@ export const useGameStore = create(
           mastery: {},
           lessonBest: {},
           completedCategories: {},
+          sessionHistory: [],
         })
       },
     }),

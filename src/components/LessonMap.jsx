@@ -20,6 +20,14 @@ export default function LessonMap({ onOpenLesson }) {
     return done / cats.length
   }
 
+  const bestFor = (lesson) => {
+    const scores = activeCats(lesson)
+      .map((c) => lessonBest[`${lesson.id}:${c}`])
+      .filter((v) => v > 0)
+    if (!scores.length) return null
+    return scores.reduce((a, b) => a + b, 0) / scores.length
+  }
+
   return (
     <div>
       <div className="map-header">
@@ -30,6 +38,7 @@ export default function LessonMap({ onOpenLesson }) {
         {lessons.map((lesson, i) => {
           const hasContent = lesson.vocabulary.length > 0
           const progress = progressFor(lesson)
+          const best = hasContent ? bestFor(lesson) : null
           const mastered = hasContent && progress === 1
           const status = !hasContent ? 'locked' : 'available'
           return (
@@ -56,6 +65,7 @@ export default function LessonMap({ onOpenLesson }) {
                   {!hasContent && (
                     <div style={{ color: 'var(--text-faint)', fontSize: 12, marginTop: 2 }}>Coming soon</div>
                   )}
+                  {best != null && <div className="node-best">🏆 Best {Math.round(best * 100)}%</div>}
                 </div>
                 {hasContent && (
                   <div className="node-progress-ring">

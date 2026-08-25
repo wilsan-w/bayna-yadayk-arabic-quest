@@ -17,6 +17,7 @@ export function exportCode() {
       mastery: game.mastery,
       lessonBest: game.lessonBest,
       completedCategories: game.completedCategories,
+      sessionHistory: game.sessionHistory,
     },
     settings: {
       quizDirection: settings.quizDirection,
@@ -51,6 +52,7 @@ export function importCode(code) {
     lessonBest: g.lessonBest && typeof g.lessonBest === 'object' ? g.lessonBest : {},
     completedCategories:
       g.completedCategories && typeof g.completedCategories === 'object' ? g.completedCategories : {},
+    sessionHistory: Array.isArray(g.sessionHistory) ? g.sessionHistory : [],
   })
   if (payload.settings && typeof payload.settings === 'object') {
     useSettingsStore.setState(payload.settings)
