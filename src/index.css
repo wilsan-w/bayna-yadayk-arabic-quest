@@ -24,12 +24,14 @@
   --shadow-card: 0 10px 30px rgba(5, 8, 30, 0.45);
   --shadow-pop: 0 6px 0 0 rgba(0, 0, 0, 0.25);
 
-  /* iOS "Liquid Glass" material — opaque frosted tint + blur + glossy sheen,
-     tuned so scrolled content behind it blurs into mush rather than staying
-     legible. Use --glass-sheen layered over --glass-bg for the lens look. */
-  --glass-bg: rgba(18, 22, 50, 0.62);
-  --glass-bg-strong: rgba(22, 26, 58, 0.74);
-  --glass-sheen: linear-gradient(165deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0) 100%);
+  /* iOS "Liquid Glass" material. The tint alone must hide whatever's behind
+     it — backdrop-filter blur is treated as a bonus enhancement layered on
+     top, NOT the thing doing the hiding, since it silently fails to render
+     in some browsers/GPU setups (no error, just no blur, content stays
+     crisp). Use --glass-sheen layered over --glass-bg for the lens look. */
+  --glass-bg: rgba(16, 19, 44, 0.93);
+  --glass-bg-strong: rgba(19, 23, 50, 0.96);
+  --glass-sheen: linear-gradient(165deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0) 100%);
   --glass-border: rgba(255, 255, 255, 0.22);
   --glass-blur: blur(40px) saturate(160%);
   --glass-shadow: 0 10px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
