@@ -619,9 +619,10 @@ button {
 .quiz-prompt-detail {
   margin-top: 10px;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 10px;
+  gap: 8px 10px;
   color: var(--text-dim);
   font-size: 15px;
 }
@@ -632,6 +633,10 @@ button {
 }
 .quiz-prompt-detail .detail-sep {
   color: var(--text-faint);
+}
+.quiz-prompt-detail .detail-meaning {
+  color: var(--text-faint);
+  font-size: 13px;
 }
 .options-grid {
   display: grid;

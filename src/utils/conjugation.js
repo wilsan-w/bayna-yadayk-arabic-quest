@@ -72,7 +72,7 @@ export function buildConjugationQuiz(verbs, count) {
       subLabel: 'Conjugate',
       prompt: tenseLabel,
       promptIsArabic: false,
-      promptDetail: { pronoun: q.pronoun.label, infinitive: q.verb.meaning },
+      promptDetail: { pronoun: q.pronoun.label, infinitive: q.verb.masdar || q.verb.meaning, meaning: q.verb.meaning },
       answer: q.form,
       options,
     }

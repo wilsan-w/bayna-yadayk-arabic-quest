@@ -55,7 +55,8 @@ export default function QuizRound({ questions, onAnswer, onDone }) {
             <div className="quiz-prompt-detail">
               <span className="arabic">{q.promptDetail.pronoun}</span>
               <span className="detail-sep">—</span>
-              <span>{q.promptDetail.infinitive}</span>
+              <span className="arabic">{q.promptDetail.infinitive}</span>
+              {q.promptDetail.meaning && <span className="detail-meaning">({q.promptDetail.meaning})</span>}
             </div>
           )}
         </div>
