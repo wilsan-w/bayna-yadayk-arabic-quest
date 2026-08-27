@@ -445,7 +445,7 @@ const lesson6 = {
     { word: 'جَانِبٌ', plural1: 'جَوَانِبُ', meaning: 'side' },
     { word: 'فِكْرَةٌ', plural1: 'فِكَرَاتٌ', plural2: 'فِكَرٌ', meaning: 'idea' },
     { word: 'مَكَّةُ', meaning: 'Mecca' },
-    { word: 'حَرَامٌ', plural1: 'حُرُمٌ', meaning: 'sacred' },
+    { word: 'حَرَامٌ', plural1: 'حُرُمٌ', meaning: 'forbidden / sinful; sacred (of a place or time)' },
     { word: 'الجُمُعَةُ', plural1: 'جُمُعَاتٌ', plural2: 'جُمَعٌ', meaning: 'Friday' },
     { word: 'مَدِينَةٌ', plural1: 'مُدُنٌ', plural2: 'مَدَائِنُ', meaning: 'city' },
     { word: 'طَائِرَةٌ', plural1: 'طَائِرَاتٌ', meaning: 'plane' },
