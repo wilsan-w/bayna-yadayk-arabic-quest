@@ -111,6 +111,18 @@ export default function SettingsPage({ onBack }) {
             </div>
             <Toggle checked={settings.sentenceEnabled} onChange={(v) => settings.setSetting('sentenceEnabled', v)} />
           </div>
+          {settings.sentenceEnabled && (
+            <Segmented
+              value={settings.sentenceLength}
+              onChange={(v) => settings.setSetting('sentenceLength', v)}
+              options={[
+                { value: 5, label: '5' },
+                { value: 10, label: '10' },
+                { value: 15, label: '15' },
+                { value: 'all', label: 'All' },
+              ]}
+            />
+          )}
         </div>
 
         <div className="settings-card">

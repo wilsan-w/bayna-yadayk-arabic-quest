@@ -24,19 +24,34 @@ export function hasConjugation(verb) {
   return !!(verb.conj?.past && verb.conj?.present)
 }
 
-export function buildConjugationQuiz(verbs, count) {
-  const pool = []
+// `order`: 'mixed' shuffles present- and past-tense questions together (default);
+// 'grouped' asks every present-tense question first, then every past-tense one.
+export function buildConjugationQuiz(verbs, count, order = 'mixed') {
+  const presentPool = []
+  const pastPool = []
   verbs.forEach((verb, index) => {
     if (!hasConjugation(verb)) return
     const { present, past } = fullParadigm(verb)
     PRONOUNS.forEach((p) => {
-      if (present[p.key]) pool.push({ verb, index, pronoun: p, tense: 'present', form: present[p.key], paradigm: present })
-      if (past[p.key]) pool.push({ verb, index, pronoun: p, tense: 'past', form: past[p.key], paradigm: past })
+      if (present[p.key]) presentPool.push({ verb, index, pronoun: p, tense: 'present', form: present[p.key], paradigm: present })
+      if (past[p.key]) pastPool.push({ verb, index, pronoun: p, tense: 'past', form: past[p.key], paradigm: past })
     })
   })
+  const pool = [...presentPool, ...pastPool]
 
-  const n = count === 'all' || count == null ? pool.length : Math.min(count, pool.length)
-  const chosen = shuffleArray(pool).slice(0, n)
+  let chosen
+  if (order === 'grouped') {
+    const total = count === 'all' || count == null ? pool.length : Math.min(count, pool.length)
+    // Split the requested count across the two tenses proportionally to how
+    // much of each is available, so a short round still covers both.
+    const presentN =
+      count === 'all' || count == null ? presentPool.length : Math.round(total * (presentPool.length / pool.length))
+    const pastN = total - presentN
+    chosen = [...shuffleArray(presentPool).slice(0, presentN), ...shuffleArray(pastPool).slice(0, pastN)]
+  } else {
+    const n = count === 'all' || count == null ? pool.length : Math.min(count, pool.length)
+    chosen = shuffleArray(pool).slice(0, n)
+  }
 
   return chosen.map((q) => {
     const tenseLabel = q.tense === 'past' ? 'Past Tense' : 'Present Tense'

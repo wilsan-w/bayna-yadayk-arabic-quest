@@ -25,6 +25,7 @@ export function exportCode() {
       matchEnabled: settings.matchEnabled,
       matchPairs: settings.matchPairs,
       sentenceEnabled: settings.sentenceEnabled,
+      sentenceLength: settings.sentenceLength,
       soundEnabled: settings.soundEnabled,
     },
   }

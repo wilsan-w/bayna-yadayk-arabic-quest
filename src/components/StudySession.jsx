@@ -162,13 +162,14 @@ export default function StudySession({ lessonId, category, onExit }) {
   const [matchResult, setMatchResult] = useState(null)
   const [finalXp, setFinalXp] = useState(0)
   const [sentenceScope, setSentenceScope] = useState('current') // 'current' | 'all'
+  const [conjugationOrder, setConjugationOrder] = useState('mixed') // 'mixed' | 'grouped'
 
   const hasMatch = category !== 'verbs' && category !== 'conjugation' && items.length >= 4 && settings.matchEnabled
 
   const quiz = useMemo(() => {
     const count = settings.quizLength === 'all' ? items.length : settings.quizLength
     if (category === 'conjugation') {
-      return buildConjugationQuiz(items, count)
+      return buildConjugationQuiz(items, count, conjugationOrder)
     }
     if (category === 'verbs') {
       return buildQuiz(items, (it) => it.past, (it) => it.meaning, count, settings.quizDirection)
@@ -176,7 +177,7 @@ export default function StudySession({ lessonId, category, onExit }) {
     const getWord = (it) => it.word || it.phrase
     return buildQuiz(items, getWord, (it) => it.meaning, count, settings.quizDirection)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, category, settings.quizLength, settings.quizDirection])
+  }, [items, category, settings.quizLength, settings.quizDirection, conjugationOrder])
 
   const priorLessons = useMemo(() => lessons.filter((l) => l.id <= lessonId), [lessonId])
 
@@ -203,9 +204,9 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   const sentenceQuestions = useMemo(() => {
     if (!settings.sentenceEnabled || sentencePool.length === 0) return []
-    return buildSentenceQuestions(sentencePool, settings.quizDirection, 'all')
+    return buildSentenceQuestions(sentencePool, settings.quizDirection, settings.sentenceLength)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection])
+  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection, settings.sentenceLength])
 
   // Sentence questions built from authored full-sentence content don't map to a
   // single vocab/verb/expression item, so only record per-item mastery for the
@@ -227,6 +228,12 @@ export default function StudySession({ lessonId, category, onExit }) {
   const Face = FACE_COMPONENTS[category]
 
   function finishLearn() {
+    setPhase(category === 'conjugation' ? 'conjugationOrder' : 'quiz')
+  }
+
+  function chooseConjugationOrder(order) {
+    playClick()
+    setConjugationOrder(order)
     setPhase('quiz')
   }
 
@@ -321,6 +328,29 @@ export default function StudySession({ lessonId, category, onExit }) {
           >
             {learnIndex + 1 >= items.length ? 'Start Quiz →' : 'Next Card →'}
           </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (phase === 'conjugationOrder') {
+    return (
+      <div className="session-shell">
+        <div className="quiz-prompt">
+          <div className="sub">Verb conjugation</div>
+          <div className="word" style={{ fontSize: 22 }}>
+            How do you want to be quizzed?
+          </div>
+        </div>
+        <div className="scope-choice">
+          <motion.button className="scope-card" onClick={() => chooseConjugationOrder('grouped')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">Present, then Past</div>
+            <div className="scope-desc">All present-tense questions first, then all past-tense</div>
+          </motion.button>
+          <motion.button className="scope-card" onClick={() => chooseConjugationOrder('mixed')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">Mixed</div>
+            <div className="scope-desc">Present and past tense questions shuffled together</div>
+          </motion.button>
         </div>
       </div>
     )

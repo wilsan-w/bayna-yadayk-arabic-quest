@@ -9,6 +9,7 @@ export const useSettingsStore = create(
       matchEnabled: true,
       matchPairs: 6,
       sentenceEnabled: true,
+      sentenceLength: 10, // number of sentence-building questions per round, or 'all'
       soundEnabled: true,
       setSetting: (key, value) => set({ [key]: value }),
     }),

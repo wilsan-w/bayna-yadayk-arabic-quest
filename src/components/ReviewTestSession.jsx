@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useGameStore } from '../store/useGameStore'
 import { useSettingsStore } from '../store/useSettingsStore'
 import QuizRound from './QuizRound'
@@ -8,6 +9,8 @@ import SessionSummary from './SessionSummary'
 import { lessons } from '../data/lessons'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
 import { buildSentenceQuestions } from '../utils/sentence'
+import { buildConjugationQuiz } from '../utils/conjugation'
+import { playClick } from '../utils/sfx'
 
 function textOf(item) {
   return item.word || item.phrase || item.past
@@ -19,21 +22,25 @@ export default function ReviewTestSession({ category, entries, onExit }) {
   const logSession = useGameStore((s) => s.logSession)
   const settings = useSettingsStore()
 
-  const [phase, setPhase] = useState('quiz')
+  const [phase, setPhase] = useState(category === 'conjugation' ? 'conjugationOrder' : 'quiz')
   const [quizResult, setQuizResult] = useState(null)
   const [sentenceResult, setSentenceResult] = useState(null)
   const [matchResult, setMatchResult] = useState(null)
   const [finalXp, setFinalXp] = useState(0)
+  const [conjugationOrder, setConjugationOrder] = useState('mixed') // 'mixed' | 'grouped'
 
   const items = useMemo(() => entries.map((e) => e.item), [entries])
-  const hasMatch = category !== 'verbs' && items.length >= 4 && settings.matchEnabled
+  const hasMatch = category !== 'verbs' && category !== 'conjugation' && items.length >= 4 && settings.matchEnabled
 
   const quiz = useMemo(() => {
     const count = settings.quizLength === 'all' ? items.length : settings.quizLength
+    if (category === 'conjugation') {
+      return buildConjugationQuiz(items, count, conjugationOrder)
+    }
     const getSource = category === 'verbs' ? (it) => it.past : (it) => it.word || it.phrase
     return buildQuiz(items, getSource, (it) => it.meaning, count, settings.quizDirection)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, category, settings.quizLength, settings.quizDirection])
+  }, [items, category, settings.quizLength, settings.quizDirection, conjugationOrder])
 
   const sentencePool = useMemo(() => {
     const lessonIds = [...new Set(entries.map((e) => e.lessonId))]
@@ -47,9 +54,9 @@ export default function ReviewTestSession({ category, entries, onExit }) {
 
   const sentenceQuestions = useMemo(() => {
     if (!settings.sentenceEnabled || sentencePool.length === 0) return []
-    return buildSentenceQuestions(sentencePool, settings.quizDirection, 'all')
+    return buildSentenceQuestions(sentencePool, settings.quizDirection, settings.sentenceLength)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection])
+  }, [sentencePool, settings.sentenceEnabled, settings.quizDirection, settings.sentenceLength])
   const hasSentence = sentenceQuestions.length > 0
 
   function handleSentenceAnswer(poolIndex, correct) {
@@ -66,6 +73,12 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     return shuffled.map((e, i) => ({ id: i, left: textOf(e.item), right: e.item.meaning }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries, hasMatch, settings.matchPairs])
+
+  function chooseConjugationOrder(order) {
+    playClick()
+    setConjugationOrder(order)
+    setPhase('quiz')
+  }
 
   function handleQuizAnswer(index, correct) {
     const entry = entries[index]
@@ -101,6 +114,29 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     logSession({ scope: 'review', lessonIds, category, accuracy, xp })
     addXp(xp)
     setPhase('summary')
+  }
+
+  if (phase === 'conjugationOrder') {
+    return (
+      <div className="session-shell">
+        <div className="quiz-prompt">
+          <div className="sub">Verb conjugation</div>
+          <div className="word" style={{ fontSize: 22 }}>
+            How do you want to be quizzed?
+          </div>
+        </div>
+        <div className="scope-choice">
+          <motion.button className="scope-card" onClick={() => chooseConjugationOrder('grouped')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">Present, then Past</div>
+            <div className="scope-desc">All present-tense questions first, then all past-tense</div>
+          </motion.button>
+          <motion.button className="scope-card" onClick={() => chooseConjugationOrder('mixed')} whileTap={{ scale: 0.97 }}>
+            <div className="scope-title">Mixed</div>
+            <div className="scope-desc">Present and past tense questions shuffled together</div>
+          </motion.button>
+        </div>
+      </div>
+    )
   }
 
   if (phase === 'quiz') {
