@@ -12,6 +12,7 @@ export function exportCode() {
     game: {
       xp: game.xp,
       streak: game.streak,
+      bestStreak: game.bestStreak,
       lastActiveDate: game.lastActiveDate,
       dailyXp: game.dailyXp,
       mastery: game.mastery,
@@ -47,6 +48,7 @@ export function importCode(code) {
   useGameStore.setState({
     xp: typeof g.xp === 'number' ? g.xp : 0,
     streak: typeof g.streak === 'number' ? g.streak : 0,
+    bestStreak: typeof g.bestStreak === 'number' ? g.bestStreak : 0,
     lastActiveDate: g.lastActiveDate ?? null,
     dailyXp: g.dailyXp && typeof g.dailyXp === 'object' ? g.dailyXp : {},
     mastery: g.mastery && typeof g.mastery === 'object' ? g.mastery : {},

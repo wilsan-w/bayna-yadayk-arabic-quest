@@ -9,18 +9,22 @@ import SettingsPage from './components/SettingsPage'
 import ReviewPage from './components/ReviewPage'
 import ReviewTestSession from './components/ReviewTestSession'
 import CalendarPage from './components/CalendarPage'
+import BadgesPage from './components/BadgesPage'
 import { useGameStore, levelFromXp } from './store/useGameStore'
+import { unlockedBadgeIds } from './utils/badges'
 import { playLevelUp } from './utils/sfx'
 
 function App() {
-  const [screen, setScreen] = useState('map') // map | hub | session | settings | review | reviewTest
+  const [screen, setScreen] = useState('map') // map | hub | session | settings | review | reviewTest | calendar | badges
   const [lessonId, setLessonId] = useState(null)
   const [category, setCategory] = useState(null)
   const [reviewEntries, setReviewEntries] = useState(null)
   const [returnTo, setReturnTo] = useState('map')
 
   const xp = useGameStore((s) => s.xp)
+  const bestStreak = useGameStore((s) => s.bestStreak)
   const prevLevel = useRef(levelFromXp(xp).level)
+  const prevBadgeIds = useRef(new Set(unlockedBadgeIds(xp, bestStreak)))
 
   useEffect(() => {
     const level = levelFromXp(xp).level
@@ -30,6 +34,16 @@ function App() {
     }
     prevLevel.current = level
   }, [xp])
+
+  useEffect(() => {
+    const current = new Set(unlockedBadgeIds(xp, bestStreak))
+    const gainedNew = [...current].some((id) => !prevBadgeIds.current.has(id))
+    if (gainedNew) {
+      playLevelUp()
+      confetti({ particleCount: 140, spread: 90, origin: { y: 0.3 }, colors: ['#ffc94d', '#3ddc97', '#b18cff'] })
+    }
+    prevBadgeIds.current = current
+  }, [xp, bestStreak])
 
   const goMap = () => {
     setScreen('map')
@@ -47,6 +61,7 @@ function App() {
         }}
         onReview={() => setScreen('review')}
         onCalendar={() => setScreen('calendar')}
+        onBadges={() => setScreen('badges')}
       />
       {screen === 'map' && (
         <motion.div key="map" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
@@ -100,6 +115,11 @@ function App() {
       {screen === 'calendar' && (
         <motion.div key="calendar" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
           <CalendarPage onBack={goMap} />
+        </motion.div>
+      )}
+      {screen === 'badges' && (
+        <motion.div key="badges" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+          <BadgesPage onBack={goMap} />
         </motion.div>
       )}
     </div>

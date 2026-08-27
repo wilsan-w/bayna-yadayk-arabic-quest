@@ -40,6 +40,7 @@ export const useGameStore = create(
     (set, get) => ({
       xp: 0,
       streak: 0,
+      bestStreak: 0, // highest streak ever reached — badges key off this, not the live streak, so they stay earned after a streak breaks
       lastActiveDate: null,
       dailyXp: {}, // 'YYYY-MM-DD' -> XP earned that local calendar day
       mastery: {}, // itemKey -> { seen, correct, level(0-3) }
@@ -63,7 +64,8 @@ export const useGameStore = create(
             streak = diff === 1 ? s.streak + 1 : 1
           }
           const dailyXp = { ...s.dailyXp, [today]: (s.dailyXp[today] || 0) + amount }
-          return { xp: s.xp + amount, streak, lastActiveDate: today, dailyXp }
+          const bestStreak = Math.max(s.bestStreak || 0, streak)
+          return { xp: s.xp + amount, streak, lastActiveDate: today, dailyXp, bestStreak }
         })
       },
 
@@ -113,6 +115,7 @@ export const useGameStore = create(
         set({
           xp: 0,
           streak: 0,
+          bestStreak: 0,
           lastActiveDate: null,
           dailyXp: {},
           mastery: {},
