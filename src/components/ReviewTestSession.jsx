@@ -9,7 +9,7 @@ import SessionSummary from './SessionSummary'
 import { lessons } from '../data/lessons'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
 import { buildSentenceQuestions } from '../utils/sentence'
-import { buildConjugationQuiz } from '../utils/conjugation'
+import { buildConjugationQuiz, buildConjugationPhrasePool } from '../utils/conjugation'
 import { playClick } from '../utils/sfx'
 
 function textOf(item) {
@@ -42,8 +42,19 @@ export default function ReviewTestSession({ category, entries, onExit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, category, settings.quizLength, settings.quizDirection, conjugationOrder])
 
+  // Same per-category split as StudySession: vocab/expressions use the
+  // descriptive authored sentences, verbs get the short everyday phrases,
+  // and conjugation gets phrases generated from the reviewed verbs' own
+  // paradigm data.
   const sentencePool = useMemo(() => {
+    if (category === 'conjugation') return buildConjugationPhrasePool(items)
     const lessonIds = [...new Set(entries.map((e) => e.lessonId))]
+    if (category === 'verbs') {
+      return lessonIds.flatMap((id) => {
+        const lesson = lessons.find((l) => l.id === id)
+        return (lesson?.verbPhrases || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
+      })
+    }
     const authored = lessonIds.flatMap((id) => {
       const lesson = lessons.find((l) => l.id === id)
       return (lesson?.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))

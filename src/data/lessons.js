@@ -90,6 +90,17 @@ const lesson1 = {
     { phrase: 'أَهْلًا وَسَهْلًا', meaning: 'Welcome' },
     { phrase: 'مَعَ السَّلَامَةِ', meaning: 'Goodbye' },
   ],
+  // Short, simple, everyday phrases built from this lesson's verbs — kept
+  // deliberately plainer than `sentences` so verb phrase-building drills
+  // practical usage instead of the more descriptive vocab sentences.
+  verbPhrases: [
+    { ar: 'أَنَا أَدْرُسُ الدَّرْسَ.', en: 'I study the lesson.' },
+    { ar: 'اُنْظُرْ إِلَيَّ.', en: 'Look at me.' },
+    { ar: 'هَلْ تَسْتَمِعُ إِلَيَّ؟', en: 'Are you listening to me?' },
+    { ar: 'أَعِدِ الدَّرْسَ.', en: 'Repeat the lesson.' },
+    { ar: 'نَحْنُ نَتَعَارَفُ.', en: 'We are getting to know each other.' },
+    { ar: 'أُثْنِي عَلَى صَدِيقِي.', en: 'I praise my friend.' },
+  ],
   sentences: [
     { ar: 'أَنَا طَالِبٌ مِنْ بَاكِسْتَانَ.', en: 'I am a student from Pakistan.' },
     { ar: 'أَخِي مُهَنْدِسٌ وَأُخْتِي طَبِيبَةٌ.', en: 'My brother is an engineer and my sister is a doctor.' },
@@ -158,6 +169,14 @@ const lesson2 = {
     { phrase: 'صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ', meaning: 'Allah’s peace and blessings be upon him' },
     { phrase: 'اللَّهُ أَكْبَرُ', meaning: 'Allah is the Greatest' },
     { phrase: 'هَيَّا بِنَا إِلَى المَسْجِدِ', meaning: 'Let’s go to the masjid' },
+  ],
+  verbPhrases: [
+    { ar: 'أَنَا أُصَلِّي.', en: 'I am praying.' },
+    { ar: 'هُوَ يَقْرَأُ القُرْآنَ.', en: 'He reads the Qur’an.' },
+    { ar: 'أُسَلِّمُ عَلَى وَالِدِي.', en: 'I greet my father.' },
+    { ar: 'أُومِنُ بِاللَّهِ.', en: 'I believe in Allah.' },
+    { ar: 'أَنَا أُؤَذِّنُ فِي المَسْجِدِ.', en: 'I call the adhan in the masjid.' },
+    { ar: 'أُعَلِّمُ فِي المَسْجِدِ.', en: 'I teach in the masjid.' },
   ],
   sentences: [
     { ar: 'هَذَا وَالِدِي وَهَذِهِ وَالِدَتِي.', en: 'This is my father and this is my mother.' },
@@ -240,6 +259,14 @@ const lesson3 = {
     { phrase: 'تَفَضَّلْ', meaning: 'here you are' },
     { phrase: 'شُكْرًا', meaning: 'thank you' },
   ],
+  verbPhrases: [
+    { ar: 'أَنَا أَسْكُنُ فِي شَقَّةٍ.', en: 'I live in an apartment.' },
+    { ar: 'أُرِيدُ هَذَا البَيْتَ.', en: 'I want this house.' },
+    { ar: 'أُشَاهِدُ شَيْئًا جَمِيلًا.', en: 'I am watching something beautiful.' },
+    { ar: 'اِشْتَرَيْتُ أَثَاثًا.', en: 'I bought furniture.' },
+    { ar: 'اِجْلِسْ عَلَى الأَرِيكَةِ.', en: 'Sit on the sofa.' },
+    { ar: 'أَطْبُخُ فِي المَطْبَخِ.', en: 'I cook in the kitchen.' },
+  ],
   sentences: [
     { ar: 'هَذَا البَيْتُ جَمِيلٌ.', en: 'This house is beautiful.' },
     { ar: 'كَمْ غُرْفَةً فِي هَذِهِ الشَّقَّةِ؟', en: 'How many rooms are in this apartment?' },
@@ -301,6 +328,14 @@ const lesson4 = {
       conj: { past: { ana: 'عَمِلْتُ', anta: 'عَمِلْتَ', anti: 'عَمِلْتِ', hiya: 'عَمِلَتْ', nahnu: 'عَمِلْنَا' }, present: { ana: 'أَعْمَلُ', anta: 'تَعْمَلُ', anti: 'تَعْمَلِينَ', hiya: 'تَعْمَلُ', nahnu: 'نَعْمَلُ' } } },
   ],
   expressions: [],
+  verbPhrases: [
+    { ar: 'أَسْتَيْقِظُ مُبَكِّرًا.', en: 'I wake up early.' },
+    { ar: 'أَذْهَبُ إِلَى المَدْرَسَةِ.', en: 'I go to school.' },
+    { ar: 'أَفْعَلُ هَذَا كُلَّ يَوْمٍ.', en: 'I do this every day.' },
+    { ar: 'أَلْبَسُ مَلَابِسِي.', en: 'I put on my clothes.' },
+    { ar: 'أَعْمَلُ فِي الصَّبَاحِ.', en: 'I work in the morning.' },
+    { ar: 'أَكْنُسُ كُلَّ يَوْمٍ.', en: 'I sweep every day.' },
+  ],
   sentences: [
     { ar: 'أَنَا أَسْتَيْقِظُ مُبَكِّرًا فِي الصَّبَاحِ.', en: 'I wake up early in the morning.' },
     { ar: 'هُوَ يَذْهَبُ إِلَى المَدْرَسَةِ فِي الحَافِلَةِ.', en: 'He goes to school on the bus.' },
@@ -379,6 +414,14 @@ const lesson5 = {
       conj: { past: { ana: 'زَوَّجْتُ', anta: 'زَوَّجْتَ', anti: 'زَوَّجْتِ', hiya: 'زَوَّجَتْ', nahnu: 'زَوَّجْنَا' }, present: { ana: 'أُزَوِّجُ', anta: 'تُزَوِّجُ', anti: 'تُزَوِّجِينَ', hiya: 'تُزَوِّجُ', nahnu: 'نُزَوِّجُ' } } },
   ],
   expressions: [],
+  verbPhrases: [
+    { ar: 'آكُلُ طَعَامًا كَثِيرًا.', en: 'I eat a lot of food.' },
+    { ar: 'أَشْرَبُ المَاءَ.', en: 'I drink water.' },
+    { ar: 'أُفَضِّلُ الشَّايَ.', en: 'I prefer tea.' },
+    { ar: 'أَشْكُرُكَ كَثِيرًا.', en: 'I thank you very much.' },
+    { ar: 'أُسَافِرُ كَثِيرًا.', en: 'I travel a lot.' },
+    { ar: 'أَنَا جَوْعَانُ جِدًّا.', en: 'I am very hungry.' },
+  ],
   sentences: [
     { ar: 'أَنَا جَوْعَانُ وَأُرِيدُ الطَّعَامَ.', en: 'I am hungry and I want food.' },
     { ar: 'هَلْ تُفَضِّلُ الشَّايَ أَمِ القَهْوَةَ؟', en: 'Do you prefer tea or coffee?' },
@@ -445,6 +488,14 @@ const lesson6 = {
       conj: { past: { ana: 'اِنْتَظَرْتُ', anta: 'اِنْتَظَرْتَ', anti: 'اِنْتَظَرْتِ', hiya: 'اِنْتَظَرَتْ', nahnu: 'اِنْتَظَرْنَا' }, present: { ana: 'أَنْتَظِرُ', anta: 'تَنْتَظِرُ', anti: 'تَنْتَظِرِينَ', hiya: 'تَنْتَظِرُ', nahnu: 'نَنْتَظِرُ' } } },
   ],
   expressions: [],
+  verbPhrases: [
+    { ar: 'أَسْمَعُ الأَذَانَ.', en: 'I hear the call to prayer.' },
+    { ar: 'أَسْتَطِيعُ ذَلِكَ.', en: 'I can do that.' },
+    { ar: 'أَرْكَبُ الطَّائِرَةَ.', en: 'I ride the plane.' },
+    { ar: 'أَنَا مَرِيضٌ.', en: 'I am sick.' },
+    { ar: 'أَنْتَظِرُ الطَّائِرَةَ.', en: 'I am waiting for the plane.' },
+    { ar: 'هَذِهِ المَدِينَةُ بَعِيدَةٌ.', en: 'This city is far.' },
+  ],
 }
 
 const lesson7 = {
@@ -513,6 +564,14 @@ const lesson7 = {
     { past: 'آنَ', present: 'يَؤُونُ', imperative: 'آنْ', masdar: 'أَوْنٌ', activeParticiple: 'آينٌ', meaning: 'to approach' },
   ],
   expressions: [],
+  verbPhrases: [
+    { ar: 'أَعْلَمُ ذَلِكَ.', en: 'I know that.' },
+    { ar: 'أَكْتُبُ الآنَ.', en: 'I am writing now.' },
+    { ar: 'أَبْدَأُ الِاخْتِبَارَ الآنَ.', en: 'I am starting the test now.' },
+    { ar: 'أَسْتَرِيحُ فِي الِاسْتِرَاحَةِ.', en: 'I rest during the break.' },
+    { ar: 'الحَافِلَةُ جَاءَتْ.', en: 'The bus has come.' },
+    { ar: 'الوَقْتُ طَوِيلٌ.', en: 'The time is long.' },
+  ],
 }
 
 const lesson8 = {
@@ -542,6 +601,13 @@ const lesson8 = {
       conj: { past: { ana: 'طِرْتُ', anta: 'طِرْتَ', anti: 'طِرْتِ', hiya: 'طَارَتْ', nahnu: 'طِرْنَا' }, present: { ana: 'أَطِيرُ', anta: 'تَطِيرُ', anti: 'تَطِيرِينَ', hiya: 'تَطِيرُ', nahnu: 'نَطِيرُ' } } },
   ],
   expressions: [],
+  verbPhrases: [
+    { ar: 'أُحِبُّ هَذِهِ المِهْنَةَ.', en: 'I love this profession.' },
+    { ar: 'أُدَرِّسُ الطِّفْلَ.', en: 'I teach the child.' },
+    { ar: 'الطَّيَّارُ يَطِيرُ.', en: 'The pilot flies.' },
+    { ar: 'أُحِبُّ الهَنْدَسَةَ.', en: 'I love engineering.' },
+    { ar: 'طَارَ الطَّيَّارُ.', en: 'The pilot flew.' },
+  ],
 }
 
 const lesson9 = {
@@ -589,6 +655,13 @@ const lesson9 = {
   expressions: [
     { phrase: 'مَرْحَبًا!', meaning: 'Welcome' },
     { phrase: 'لَوْ سَمَحْتُمْ', meaning: 'please / if you may' },
+  ],
+  verbPhrases: [
+    { ar: 'أَتَسَوَّقُ هُنَا.', en: 'I shop here.' },
+    { ar: 'أُرَحِّبُ بِكَ.', en: 'I welcome you.' },
+    { ar: 'الدَّجَاجَةُ تَبِيضُ.', en: 'The hen lays eggs.' },
+    { ar: 'أَمْلَحُ اللَّحْمَ.', en: 'I salt the meat.' },
+    { ar: 'هَلْ تَسْمَحُ لِي؟', en: 'Do you permit me?' },
   ],
 }
 

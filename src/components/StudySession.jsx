@@ -10,7 +10,7 @@ import MatchGame from './MatchGame'
 import SessionSummary from './SessionSummary'
 import { buildQuiz, shuffleArray } from '../utils/quiz'
 import { buildSentenceQuestions, eligibleSentenceCount } from '../utils/sentence'
-import { PRONOUNS, fullParadigm, buildConjugationQuiz } from '../utils/conjugation'
+import { PRONOUNS, fullParadigm, buildConjugationQuiz, buildConjugationPhrasePool } from '../utils/conjugation'
 import { speakArabic } from '../utils/speech'
 import { playClick } from '../utils/sfx'
 
@@ -181,8 +181,17 @@ export default function StudySession({ lessonId, category, onExit }) {
 
   const priorLessons = useMemo(() => lessons.filter((l) => l.id <= lessonId), [lessonId])
 
+  // Each category draws phrase-building material from a different pool:
+  // vocabulary/expressions use the descriptive authored `sentences`, verbs
+  // get short hand-written everyday `verbPhrases`, and conjugation gets
+  // minimal pronoun+verb phrases generated straight from the paradigm data.
   function sentencePoolFor(sourceLessons) {
-    if (category === 'conjugation') return []
+    if (category === 'conjugation') {
+      return sourceLessons.flatMap((l) => buildConjugationPhrasePool(l.conjugation))
+    }
+    if (category === 'verbs') {
+      return sourceLessons.flatMap((l) => (l.verbPhrases || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true })))
+    }
     const authored = sourceLessons.flatMap((l) =>
       (l.sentences || []).map((s) => ({ phrase: s.ar, meaning: s.en, _authored: true }))
     )

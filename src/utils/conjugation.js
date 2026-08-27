@@ -93,3 +93,49 @@ export function buildConjugationQuiz(verbs, count, order = 'mixed') {
     }
   })
 }
+
+const ENGLISH_SUBJECT = { ana: 'I', anta: 'you', anti: 'you', huwa: 'he', hiya: 'she', nahnu: 'we' }
+
+// Verb meanings are stored as "to X" and sometimes carry a second sense or a
+// parenthetical ("to act / do", "to grant (lease)") — only the first sense
+// is usable as a plain subject + verb phrase.
+function englishBaseForm(meaning) {
+  return meaning.replace(/^to /, '').split(/[/(]/)[0].trim()
+}
+
+function toThirdPersonVerb(word) {
+  if (word === 'be') return 'is'
+  if (word === 'have') return 'has'
+  if (/[sxz]$|[cs]h$/.test(word)) return word + 'es'
+  if (/[^aeiou]o$/.test(word)) return word + 'es'
+  if (/[^aeiou]y$/.test(word)) return word.slice(0, -1) + 'ies'
+  return word + 's'
+}
+
+function englishPhrase(pronounKey, meaning) {
+  const base = englishBaseForm(meaning)
+  const subject = ENGLISH_SUBJECT[pronounKey]
+  if (pronounKey !== 'huwa' && pronounKey !== 'hiya') return `${subject} ${base}`
+  const words = base.split(' ')
+  words[0] = toThirdPersonVerb(words[0])
+  return `${subject} ${words.join(' ')}`
+}
+
+// Short "pronoun + present-tense verb" phrases generated straight from a
+// lesson's conjugation data — e.g. "أَنَا أَذْهَبُ" / "I go". Deliberately
+// minimal (no objects/particles) so sentence-building for verb conjugation
+// drills recognizing pronoun + verb-form pairing, distinct from the
+// hand-written vocab sentences and verb phrases.
+export function buildConjugationPhrasePool(verbs) {
+  const pool = []
+  verbs.forEach((verb) => {
+    if (!hasConjugation(verb)) return
+    const { present } = fullParadigm(verb)
+    PRONOUNS.forEach((p) => {
+      const form = present[p.key]
+      if (!form) return
+      pool.push({ phrase: `${p.label} ${form}`, meaning: englishPhrase(p.key, verb.meaning), _authored: true })
+    })
+  })
+  return pool
+}
