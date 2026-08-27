@@ -496,6 +496,14 @@ const lesson6 = {
     { ar: 'أَنْتَظِرُ الطَّائِرَةَ.', en: 'I am waiting for the plane.' },
     { ar: 'هَذِهِ المَدِينَةُ بَعِيدَةٌ.', en: 'This city is far.' },
   ],
+  sentences: [
+    { ar: 'أَسْمَعُ الأَذَانَ فِي الفَجْرِ.', en: 'I hear the call to prayer at dawn.' },
+    { ar: 'هَذِهِ المَدِينَةُ بَعِيدَةٌ عَنْ مَكَّةَ.', en: 'This city is far from Mecca.' },
+    { ar: 'أُصَلِّي صَلَاةَ الجُمُعَةِ فِي المَدِينَةِ.', en: 'I pray the Friday prayer in the city.' },
+    { ar: 'هُوَ مَرِيضٌ وَكَسْلَانُ.', en: 'He is sick and lazy.' },
+    { ar: 'الطَّائِرَةُ تُسَافِرُ إِلَى مَكَّةَ.', en: 'The plane travels to Mecca.' },
+    { ar: 'هَذِهِ الفِكْرَةُ صَحِيحَةٌ.', en: 'This idea is correct.' },
+  ],
 }
 
 const lesson7 = {
@@ -572,6 +580,14 @@ const lesson7 = {
     { ar: 'الحَافِلَةُ جَاءَتْ.', en: 'The bus has come.' },
     { ar: 'الوَقْتُ طَوِيلٌ.', en: 'The time is long.' },
   ],
+  sentences: [
+    { ar: 'أَدْرُسُ الطِّبَّ فِي الجَامِعَةِ.', en: 'I study medicine at the university.' },
+    { ar: 'الِاخْتِبَارُ يَبْدَأُ الآنَ.', en: 'The exam begins now.' },
+    { ar: 'أَنَا مِنْ دِمَشْقَ.', en: 'I am from Damascus.' },
+    { ar: 'أَذْهَبُ إِلَى المَدْرَسَةِ بِالحَافِلَةِ.', en: 'I go to school by bus.' },
+    { ar: 'الحِصَّةُ طَوِيلَةٌ اليَوْمَ.', en: 'The class period is long today.' },
+    { ar: 'أَسْتَرِيحُ فِي المَكْتَبَةِ بَعْدَ الحِصَّةِ.', en: 'I rest in the library after class.' },
+  ],
 }
 
 const lesson8 = {
@@ -607,6 +623,13 @@ const lesson8 = {
     { ar: 'الطَّيَّارُ يَطِيرُ.', en: 'The pilot flies.' },
     { ar: 'أُحِبُّ الهَنْدَسَةَ.', en: 'I love engineering.' },
     { ar: 'طَارَ الطَّيَّارُ.', en: 'The pilot flew.' },
+  ],
+  sentences: [
+    { ar: 'أَبِي مُهَنْدِسٌ فِي شَرِكَةٍ كَبِيرَةٍ.', en: 'My father is an engineer at a big company.' },
+    { ar: 'المُمَرِّضَةُ تَعْمَلُ فِي المُسْتَشْفَى.', en: 'The nurse works in the hospital.' },
+    { ar: 'الطَّيَّارُ يُحِبُّ الطَّيَرَانَ.', en: 'The pilot loves flying.' },
+    { ar: 'الطِّفْلُ فِي المَرْحَلَةِ الِابْتِدَائِيَّةِ.', en: 'The child is in the primary stage.' },
+    { ar: 'أُدَرِّسُ فِي المَرْحَلَةِ المُتَوَسِّطَةِ.', en: 'I teach in the middle stage.' },
   ],
 }
 
@@ -662,6 +685,13 @@ const lesson9 = {
     { ar: 'الدَّجَاجَةُ تَبِيضُ.', en: 'The hen lays eggs.' },
     { ar: 'أَمْلَحُ اللَّحْمَ.', en: 'I salt the meat.' },
     { ar: 'هَلْ تَسْمَحُ لِي؟', en: 'Do you permit me?' },
+  ],
+  sentences: [
+    { ar: 'أَشْتَرِي دَفْتَرًا وَقَلَمًا.', en: 'I buy a notebook and a pen.' },
+    { ar: 'هَذَا القَمِيصُ أَحْمَرُ وَذَلِكَ أَزْرَقُ.', en: 'This shirt is red and that one is blue.' },
+    { ar: 'أَتَسَوَّقُ هُنَا كُلَّ أُسْبُوعٍ.', en: 'I shop here every week.' },
+    { ar: 'أَشْتَرِي اللَّحْمَ وَالدَّجَاجَ مِنْ هَذَا القِسْمِ.', en: 'I buy meat and chicken from this section.' },
+    { ar: 'الثَّوْبُ الأَصْفَرُ جَمِيلٌ.', en: 'The yellow garment is beautiful.' },
   ],
 }
 
